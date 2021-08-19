@@ -49,71 +49,6 @@ void setup() {
     matrix.setBrightness(5);
 }
 
-void printString(int r, int g, int b) {
-    matrix.setPixelColor(169, r, g, b);
-    matrix.setPixelColor(179, r, g, b);
-    matrix.setPixelColor(182, r, g, b);
-    matrix.setPixelColor(185, r, g, b);
-    matrix.setPixelColor(187, r, g, b);
-    matrix.setPixelColor(191, r, g, b);
-    matrix.setPixelColor(193, r, g, b);
-    matrix.setPixelColor(195, r, g, b);
-    matrix.setPixelColor(197, r, g, b);
-    matrix.setPixelColor(198, r, g, b);
-    matrix.setPixelColor(200, r, g, b);
-    matrix.setPixelColor(201, r, g, b);
-    matrix.setPixelColor(204, r, g, b);
-    matrix.setPixelColor(205, r, g, b);
-    matrix.setPixelColor(209, r, g, b);
-    matrix.setPixelColor(212, r, g, b);
-    matrix.setPixelColor(213, r, g, b);
-    matrix.setPixelColor(214, r, g, b);
-    matrix.setPixelColor(217, r, g, b);
-    matrix.setPixelColor(219, r, g, b);
-    matrix.setPixelColor(223, r, g, b);
-    matrix.setPixelColor(227, r, g, b);
-    matrix.setPixelColor(230, r, g, b);
-}
-
-void printImage(int r, int g, int b) {
-    matrix.setPixelColor(96, r, g, b);
-    matrix.setPixelColor(97, r, g, b);
-    matrix.setPixelColor(98, r, g, b);
-    matrix.setPixelColor(99, r, g, b);
-    matrix.setPixelColor(100, r, g, b);
-    matrix.setPixelColor(101, r, g, b);
-    matrix.setPixelColor(102, r, g, b);
-    matrix.setPixelColor(103, r, g, b);
-    matrix.setPixelColor(104, r, g, b);
-    matrix.setPixelColor(106, r, g, b);
-    matrix.setPixelColor(108, r, g, b);
-    matrix.setPixelColor(111, r, g, b);
-    matrix.setPixelColor(112, r, g, b);
-    matrix.setPixelColor(115, r, g, b);
-    matrix.setPixelColor(117, r, g, b);
-    matrix.setPixelColor(119, r, g, b);
-    matrix.setPixelColor(120, r, g, b);
-    matrix.setPixelColor(121, r, g, b);
-    matrix.setPixelColor(122, r, g, b);
-    matrix.setPixelColor(123, r, g, b);
-    matrix.setPixelColor(124, r, g, b);
-    matrix.setPixelColor(125, r, g, b);
-    matrix.setPixelColor(126, r, g, b);
-    matrix.setPixelColor(127, r, g, b);
-    matrix.setPixelColor(137, r, g, b);
-    matrix.setPixelColor(140, r, g, b);
-    matrix.setPixelColor(144, r, g, b);
-    matrix.setPixelColor(145, r, g, b);
-    matrix.setPixelColor(146, r, g, b);
-    matrix.setPixelColor(147, r, g, b);
-    matrix.setPixelColor(148, r, g, b);
-    matrix.setPixelColor(149, r, g, b);
-    matrix.setPixelColor(150, r, g, b);
-    matrix.setPixelColor(151, r, g, b);
-    matrix.setPixelColor(153, r, g, b);
-    matrix.setPixelColor(156, r, g, b);
-}
-
 void printEddy(int r, int g, int b) {
     matrix.setPixelColor(1, r, g, b);
     matrix.setPixelColor(2, r, g, b);
@@ -317,11 +252,93 @@ int colors[7][3] = {{240, 0,   0},
                     {120, 0,   120}
 };
 
+const int SUBMIT_SIZE = 22;
+
+int submit[SUBMIT_SIZE][2] = {{3,0},
+{0,1},
+{1,1},
+{2,1},
+{3,1},
+{4,1},
+{5,1},
+{6,1},
+{2,2},
+{4,2},
+{1,3},
+{2,3},
+{5,3},
+{0,4},
+{3,4},
+{4,4},
+{6,4},
+{3,5},
+{2,6},
+{4,6},
+{1,7},
+{5,7}};
+
+const int IMAGE_SIZE = 38;
+
+int image[IMAGE_SIZE][2] = {{1,0},
+{4,0},
+{5,0},
+{6,0},
+{7,0},
+{1,1},
+{4,1},
+{7,1},
+{0,2},
+{1,2},
+{2,2},
+{4,2},
+{5,2},
+{6,2},
+{7,2},
+{1,3},
+{4,3},
+{7,3},
+{0,4},
+{1,4},
+{2,4},
+{4,4},
+{5,4},
+{6,4},
+{7,4},
+{0,5},
+{1,5},
+{2,5},
+{4,5},
+{7,5},
+{1,6},
+{4,6},
+{7,6},
+{1,7},
+{4,7},
+{5,7},
+{6,7},
+{7,7}};
+
+int getLocation(int x, int y) {
+    if (x % 2 == 1) {
+        return 255 - (8 * x + y);
+    } else {
+        return 255 - (8 * x + 7 - y);
+    } 
+}
+
+void printArray(int arr[][2], int count, int r, int g, int b, int x, int y){
+
+  for (int i = 0; i < count; i++) {
+    matrix.setPixelColor(getLocation(arr[i][0] + x, arr[i][1] + y), r, g, b);
+  }
+   
+}
+
 void loop() {
     if (pass > 6) pass = 0;
     matrix.fillScreen(0);
-    printString(colors[pass][0], colors[pass][1], colors[pass][2]);
-    printImage(colors[pass][0], colors[pass][1], colors[pass][2]);
+    printArray(submit, SUBMIT_SIZE, colors[pass][0], colors[pass][1], colors[pass][2], 3, 0);
+    printArray(image, IMAGE_SIZE, colors[pass][0], colors[pass][1], colors[pass][2], 12, 0);
     printColor();
     matrix.show();
     delay(1000);
@@ -331,6 +348,4 @@ void loop() {
     matrix.show();
     pass++;
     delay(100);
-
 }
-
